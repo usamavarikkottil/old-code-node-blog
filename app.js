@@ -32,14 +32,10 @@ const Post = mongoose.model("Post", blogSchema);
 
 app.get("/", (req, res) => {
 
-  Post.find({}, function (err, foundPosts) {
-
-
+  Post.find({})
+  .then((foundPosts) => {
     res.render("home", { startingContent: homeStartingContent, posts: foundPosts });
   });
-
-
-
 
 });
 
@@ -60,13 +56,12 @@ app.get("/compose", (req, res) =>
 app.get("/posts/:postId",  (req, res) => {
 
   const requestedId = req.params.postId;
-Post.findOne({_id: requestedId},function (err, foundPost){
 
+  Post.findOne({_id: requestedId})
+  .then((foundPost) => {
     res.render("post", { title: foundPost.title, content: foundPost.content });
-  
-  
-});
-
+  })  
+    
 });
 
 
