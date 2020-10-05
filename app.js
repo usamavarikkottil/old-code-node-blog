@@ -32,7 +32,7 @@ const Post = mongoose.model("Post", blogSchema);
 
 
 
-app.get("/", function (req, res) {
+app.get("/", (req, res) => {
 
   Post.find({}, function (err, foundPosts) {
 
@@ -45,7 +45,7 @@ app.get("/", function (req, res) {
 
 });
 
-app.get("/about", function (req, res) {
+app.get("/about", (req, res) => {
   res.render("about", { content: aboutContent });
 });
 
