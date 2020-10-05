@@ -45,21 +45,21 @@ app.get("/", (req, res) => {
 
 });
 
-app.get("/about", (req, res) => {
-  res.render("about", { content: aboutContent });
-});
+app.get("/about", (req, res) => 
+  res.render("about", { content: aboutContent })
+);
 
 
-app.get("/contact", function (req, res) {
-  res.render("contact", { content: contactContent });
-});
+app.get("/contact",  (req, res) => 
+  res.render("contact", { content: contactContent })
+);
 
 
-app.get("/compose", function (req, res) {
-  res.render("compose");
-});
+app.get("/compose", (req, res) => 
+  res.render("compose")
+);
 
-app.get("/posts/:postId", function (req, res) {
+app.get("/posts/:postId",  (req, res) => {
 
   const requestedId = req.params.postId;
 Post.findOne({_id: requestedId},function (err, foundPost){
@@ -69,15 +69,10 @@ Post.findOne({_id: requestedId},function (err, foundPost){
   
 });
 
-
-
-
-
-
 });
 
 
-app.post("/compose", function (req, res) {
+app.post("/compose", (req, res) => {
 
   const post = new Post({
     title: req.body.postTitle,
@@ -93,14 +88,5 @@ app.post("/compose", function (req, res) {
 });
 
 
-
-
-
-
-
-
-
-
-app.listen(3000, function () {
-  console.log("Server started on port 3000");
-});
+//Listener
+app.listen(3000, () => console.log("Server started on port 3000"));
