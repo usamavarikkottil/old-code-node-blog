@@ -34,35 +34,33 @@ const Post = mongoose.model("Post", blogSchema);
 app.get("/", (req, res) => {
 
   Post.find({})
-  .then((foundPosts) => {
-    res.render("home", { startingContent: homeStartingContent, posts: foundPosts });
-  });
+    .then((foundPosts) => {
+      res.render("home", { startingContent: homeStartingContent, posts: foundPosts });
+    });
 
 });
 
-app.get("/about", (req, res) => 
+app.get("/about", (req, res) =>
   res.render("about", { content: aboutContent })
 );
 
 
-app.get("/contact",  (req, res) => 
+app.get("/contact", (req, res) =>
   res.render("contact", { content: contactContent })
 );
 
 
-app.get("/compose", (req, res) => 
+app.get("/compose", (req, res) =>
   res.render("compose")
 );
 
-app.get("/posts/:postId",  (req, res) => {
+app.get("/posts/:postId", (req, res) => {
 
-  const requestedId = req.params.postId;
+  Post.findOne({ _id: req.params.postId })
+    .then((foundPost) => {
+      res.render("post", { title: foundPost.title, content: foundPost.content });
+    })
 
-  Post.findOne({_id: requestedId})
-  .then((foundPost) => {
-    res.render("post", { title: foundPost.title, content: foundPost.content });
-  })  
-    
 });
 
 
@@ -72,12 +70,8 @@ app.post("/compose", (req, res) => {
     title: req.body.postTitle,
     content: req.body.postBody
   });
-  post.save(function (err) {
-    if (!err) {
-      res.redirect("/");
-    }
-  });
-
+  post.save()
+    .then(() => res.redirect("/"));
 
 });
 
